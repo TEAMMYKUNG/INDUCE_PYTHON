@@ -167,8 +167,7 @@ def calculate(xp, yp, obj_size):
         for i in list(comb):
             key = str(str(i[0]) + str(i[1]))
             distant[key] = cal_distance(vars()['x' + i[0]], vars()['x' + i[1]], vars()['y' + i[0]], vars()['y' + i[1]])
-            distantp[key] = cal_distance(vars()['x' + i[0]], vars()['x' + i[1]], vars()['y' + i[0]],
-                                         - vars()['y' + i[1]])
+            distantp[key] = cal_distance(vars()['x' + i[0]], vars()['x' + i[1]], vars()['y' + i[0]], - vars()['y' + i[1]])
         for i in conductor:
             key = str('p' + i)
             distant[key] = cal_distance(xp, vars()['x' + i], yp, vars()['y' + i])
@@ -226,7 +225,7 @@ def calculate(xp, yp, obj_size):
                             [np.log(distantp['ai'] / distant['ai']), np.log(distantp['bi'] / distant['bi']),
                             np.log(distantp['ci'] / distant['ci']), np.log(distantp['di'] / distant['di']),
                             np.log(distantp['ei'] / distant['ei']), np.log(distantp['fi'] / distant['fi']),
-                            np.log(distantp['gh'] / distant['gh']),np.log(distantp['hi'] / distant['hi']),
+                            np.log(distantp['gi'] / distant['gi']),np.log(distantp['hi'] / distant['hi']),
                             np.log(2 * yi / r_115)]])
 
         q_cart = 2 * np.pi * EPSILON_0 * np.matmul(np.linalg.inv(Matrix), v_complex)
@@ -252,14 +251,83 @@ def calculate(xp, yp, obj_size):
         (VP, VI) = cart2pol(np.real(vp), np.imag(vp))
         return round(VP[0][0], 2)
 
+    ############################################################################################
+    if case == 4:  # case 4: 115kv Bundle
+        (xa, ya) = (1.95, 18.8)
+        (xb, yb) = (2.15, 18.8)
+        (xc, yc) = (1.95, 16.3)
+        (xd, yd) = (2.15, 16.3)
+        (xe, ye) = (1.95, 13.8)
+        (xf, yf) = (2.15, 13.8)
+        (r_a, theta_a) = (115, 0)
+        (r_b, theta_b) = (115, 0)
+        (r_c, theta_c) = (115, 120)
+        (r_d, theta_d) = (115, 120)
+        (r_e, theta_e) = (115, -120)
+        (r_f, theta_f) = (115, -120)
+        conductor = ('a', 'b', 'c', 'd', 'e', 'f')
+        comb = combinations([conductor[i] for i in range(len(conductor))], 2)
+        distant, distantp, distantD, vphase, iphase = {}, {}, {}, {}, {}
+        for i in list(comb):
+            key = str(str(i[0]) + str(i[1]))
+            distant[key] = cal_distance(vars()['x' + i[0]], vars()['x' + i[1]], vars()['y' + i[0]], vars()['y' + i[1]])
+            distantp[key] = cal_distance(vars()['x' + i[0]], vars()['x' + i[1]], vars()['y' + i[0]],
+                                         - vars()['y' + i[1]])
+        for i in conductor:
+            key = str('p' + i)
+            distant[key] = cal_distance(xp, vars()['x' + i], yp, vars()['y' + i])
+            distantp[key] = cal_distance(xp, vars()['x' + i], yp, - vars()['y' + i])
+            distantD[key] = cal_distance(xp, vars()['x' + i], 0, vars()['y' + i])
+            vphase[i] = pol2cart(vars()['r_' + i], np.radians(vars()['theta_' + i]))
+            iphase[i] = pol2cart(line_current_115, np.radians(vars()['theta_' + i]))
+
+        v_complex = np.array([[vphase['a'] / np.sqrt(3)], [vphase['b'] / np.sqrt(3)], [vphase['c'] / np.sqrt(3)],
+                              [vphase['d'] / np.sqrt(3)], [vphase['e'] / np.sqrt(3)], [vphase['f'] / np.sqrt(3)]])
+        Matrix = np.array([[np.log(2 * ya / gmr_115), np.log(distantp['ab'] / distant['ab']),
+                            np.log(distantp['ac'] / distant['ac']), np.log(distantp['ad'] / distant['ad']),
+                            np.log(distantp['ae'] / distant['ae']), np.log(distantp['af'] / distant['af'])],
+                           [np.log(distantp['ab'] / distant['ab']), np.log(2 * yb / gmr_115),
+                            np.log(distantp['bc'] / distant['bc']), np.log(distantp['bd'] / distant['bd']),
+                            np.log(distantp['be'] / distant['be']), np.log(distantp['bf'] / distant['bf'])],
+                           [np.log(distantp['ac'] / distant['ac']), np.log(distantp['bc'] / distant['bc']),
+                            np.log(2 * yc / gmr_115), np.log(distantp['cd'] / distant['cd']),
+                            np.log(distantp['ce'] / distant['ce']), np.log(distantp['cf'] / distant['cf'])],
+                           [np.log(distantp['ad'] / distant['ad']), np.log(distantp['bd'] / distant['bd']),
+                            np.log(distantp['cd'] / distant['cd']), np.log(2 * yd / gmr_115),
+                            np.log(distantp['de'] / distant['de']), np.log(distantp['df'] / distant['df'])],
+                           [np.log(distantp['ae'] / distant['ae']), np.log(distantp['be'] / distant['be']),
+                            np.log(distantp['ce'] / distant['ce']), np.log(distantp['de'] / distant['de']),
+                            np.log(2 * ye / gmr_115), np.log(distantp['ef'] / distant['ef'])],
+                           [np.log(distantp['af'] / distant['af']), np.log(distantp['bf'] / distant['bf']),
+                            np.log(distantp['cf'] / distant['cf']), np.log(distantp['df'] / distant['df']),
+                            np.log(distantp['ef'] / distant['ef']), np.log(2 * yf / gmr_115)]])
+        q_cart = 2 * np.pi * EPSILON_0 * np.matmul(np.linalg.inv(Matrix), v_complex)
+        vpe = ((q_cart[0] * np.log(distantp['pa'] / distant['pa'])) + (
+                q_cart[1] * np.log(distantp['pb'] / distant['pb'])) + (
+                q_cart[2] * np.log(distantp['pc'] / distant['pc'])) + (
+                q_cart[3] * np.log(distantp['pd'] / distant['pd'])) + (
+                q_cart[4] * np.log(distantp['pe'] / distant['pe'])) + (
+                q_cart[5] * np.log(distantp['pf'] / distant['pf']))) / (2 * np.pi * EPSILON_0)
+        i_complex = np.array([[iphase['a']], [iphase['b']], [iphase['c']], [iphase['d']], [iphase['e']], [iphase['f']]])
+        SuperPosition = np.array([[np.log(distantD['pa'] / distant['pa']), np.log(distantD['pb'] / distant['pb']),
+                                   np.log(distantD['pc'] / distant['pc']), np.log(distantD['pd'] / distant['pd']),
+                                   np.log(distantD['pe'] / distant['pe']), np.log(distantD['pf'] / distant['pf'])]])
+        matrix2 = np.matmul(SuperPosition, i_complex)
+        ep = 2 * (10 ** -7) * 100 * np.pi * matrix2
+        vpm = ep * obj_size
+        vp = vpm + vpe
+        (VP, VI) = cart2pol(np.real(vp), np.imag(vp))
+        return round(VP[0][0], 2)
+
     else:
         print("Don't have that case")
         exit()
 
 
 # define Gobal var
-r_115 = 12.825
-r_22 = 7.99
+r_115 = 12.8 #0.012825
+r_22 = 7.9 #0.00799
+gmr_115 = 50.69 #0.05069
 line_current_115 = 1606.539
 line_current_22 = 1606.539  #############
 EPSILON_0 = 8.854 * pow(10, -12)
