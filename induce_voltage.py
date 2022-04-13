@@ -1,4 +1,4 @@
-from icecream import ic
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -510,7 +510,7 @@ gmr_115 = 0.05069
 line_current_115 = 1606.539
 line_current_22 = 8397.8  ######
 EPSILON_0 = 8.854 * pow(10, -12)
-v_safe = 30000
+v_safe = 12000
 con = 'y'
 
 # Start
@@ -522,15 +522,15 @@ while con == 'y' or con == 'Y':
     # Graph on interested High
     m_xp = []
     v_induce = []
-    for Distance_x in np.arange(0.1, 15, 0.1):
+    for Distance_x in np.arange(-15, 15, 0.1):
         Distance_x = round(Distance_x, 1)
         m_xp.append(Distance_x)
         v_induce.append(calculate(Distance_x, inter_h, obj_size))
     data = {'distance': m_xp, 'Induced Voltage': v_induce}
     df = pd.DataFrame.from_dict(data)
     df.set_index('distance', inplace=True)
-    title_h = str('Induce Voltage & Distance (High '+str(inter_h)+' m)')
-    df.plot(figsize=(10, 8), ylabel='Induce Voltage(V)', xlabel='Distance(m)', title=title_h, grid=True, xlim=0, ylim=0)
+    title_h = str('Induce Voltage & Distance (High '+str(inter_h)+' m) (Mean'+str(round(np.mean(v_induce),2))+' V) (Max '+str(np.max(v_induce))+'V)')
+    df.plot(figsize=(10, 8), ylabel='Induce Voltage(V)', xlabel='Distance(m)', title=title_h, grid=True, xlim=-15, ylim=0)
 
     # heatmap
     x_ax = np.arange(-15, 15, 0.1)
@@ -572,5 +572,6 @@ while con == 'y' or con == 'Y':
 
     print('Calculate Again ?')
     con = str(input('Enter y or n: '))
+
 else:
     exit()

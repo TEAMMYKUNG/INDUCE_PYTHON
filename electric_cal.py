@@ -1,4 +1,4 @@
-from icecream import ic
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -28,30 +28,30 @@ def cal_distance(Xa, Xb, Ya, Yb):  # *function find Distance between 2 point
 def calculate(xp, yp, obj_size):
     with np.errstate(divide='ignore', invalid='ignore'):
         if case == 1:
-            (xa, ya) = (1.95, 18.8)
-            (xb, yb) = (2.15, 18.8)
-            (xc, yc) = (1.95, 16.3)
-            (xd, yd) = (2.15, 16.3)
-            (xe, ye) = (1.95, 13.8)
-            (xf, yf) = (2.15, 13.8)
-            (xg, yg) = (,)
-            (xh, yh) = (,)
-            (xi, yi) = (,)
-            (xj, yj) = (,)
-            (xk, yk) = (,)
-            (xl, yl) = (,)
+            (xa, ya) = (-3.9, 23)
+            (xb, yb) = (-2.6, 23)
+            (xc, yc) = (-3.9, 19)
+            (xd, yd) = (-2.6, 19)
+            (xe, ye) = (-3.9, 15)
+            (xf, yf) = (-2.6, 15)
+            (xg, yg) = (2.6,15)
+            (xh, yh) = (3.9,15)
+            (xi, yi) = (2.6,19)
+            (xj, yj) = (3.9,19)
+            (xk, yk) = (2.6,23)
+            (xl, yl) = (3.9,23)
             (r_a, theta_a) = (230000, 0)
             (r_b, theta_b) = (230000, 0)
             (r_c, theta_c) = (230000, 120)
             (r_d, theta_d) = (230000, 120)
             (r_e, theta_e) = (230000, -120)
             (r_f, theta_f) = (230000, -120)
-            (r_g, theta_g) = (230000,)
-            (r_h, theta_h) = (230000,)
-            (r_i, theta_i) = (230000,)
-            (r_j, theta_j) = (230000,)
-            (r_k, theta_k) = (230000,)
-            (r_l, theta_l) = (230000,)
+            (r_g, theta_g) = (230000, 0)
+            (r_h, theta_h) = (230000, 0)
+            (r_i, theta_i) = (230000, 120)
+            (r_j, theta_j) = (230000, 120)
+            (r_k, theta_k) = (230000, -120)
+            (r_l, theta_l) = (230000, -120)
             conductor = ('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i','j','k','l')
             comb = combinations([conductor[i] for i in range(len(conductor))], 2)
             distant, distantp, distantD, vphase, iphase = {}, {}, {}, {}, {}
@@ -145,8 +145,7 @@ def calculate(xp, yp, obj_size):
                                 np.log(np.divide(distantp['el'], distant['el'])), np.log(np.divide(distantp['fl'], distant['fl'])),
                                 np.log(np.divide(distantp['gl'], distant['gl'])), np.log(np.divide(distantp['hl'], distant['hl'])),
                                 np.log(np.divide(distantp['il'], distant['il'])), np.log(np.divide(distantp['jl'], distant['jl'])),
-                                np.log(np.divide(distantp['kl'], distant['kl']))],np.log(2 * np.divide(yl, gmr_230))])
-
+                                np.log(np.divide(distantp['kl'], distant['kl'])),np.log(2 * np.divide(yl, gmr_230))]])
             q_cart = (2 * np.pi * EPSILON_0) * np.matmul(np.linalg.inv(Matrix), v_complex)
             vpe = np.divide(((q_cart[0] * np.log(np.divide(distantp['pa'], distant['pa']))) +
                    (q_cart[1] * np.log(np.divide(distantp['pb'], distant['pb']))) +
@@ -175,7 +174,7 @@ def calculate(xp, yp, obj_size):
             (VP, VI) = cart2pol(np.real(vp), np.imag(vp))
             return round(VP[0][0], 2)
 
-# define Gobal var
+# define Global var
 r_230 = 0.012825
 gmr_230 = 0.05069
 line_current_115 = 1606.539
