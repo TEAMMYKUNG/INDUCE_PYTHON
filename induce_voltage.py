@@ -524,24 +524,18 @@ while con == 'y' or con == 'Y':
     # Graph on interested High
     m_xp = []
     v_induce = []
-<<<<<<< Updated upstream
-    for Distance_x in np.arange(-15, 15, 0.1):
-=======
+
     for Distance_x in np.arange(-range_x, range_x, 0.1):
->>>>>>> Stashed changes
         Distance_x = round(Distance_x, 1)
         m_xp.append(Distance_x)
         v_induce.append(calculate(Distance_x, inter_h, obj_size))
     data = {'distance': m_xp, 'Induced Voltage': v_induce}
     df = pd.DataFrame.from_dict(data)
     df.set_index('distance', inplace=True)
-<<<<<<< Updated upstream
+
     title_h = str('Induce Voltage & Distance (High '+str(inter_h)+' m) (Mean'+str(round(np.mean(v_induce),2))+' V) (Max '+str(np.max(v_induce))+'V)')
     df.plot(figsize=(10, 8), ylabel='Induce Voltage(V)', xlabel='Distance(m)', title=title_h, grid=True, xlim=-15, ylim=0)
-=======
-    title_h = str('Induce Voltage & Distance (High '+str(inter_h)+' m)')
-    df.plot(figsize=(10, 8), ylabel='Induce Voltage(V)', xlabel='Distance(m)', title=title_h, grid=True)
->>>>>>> Stashed changes
+    plt.show()
 
     # heatmap
     x_ax = np.arange(-range_x, range_x, 0.1)
