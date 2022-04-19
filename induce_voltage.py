@@ -535,7 +535,6 @@ while con == 'y' or con == 'Y':
 
     title_h = str('Induce Voltage & Distance (High '+str(inter_h)+' m) (Mean'+str(round(np.mean(v_induce),2))+' V) (Max '+str(np.max(v_induce))+'V)')
     df.plot(figsize=(10, 8), ylabel='Induce Voltage(V)', xlabel='Distance(m)', title=title_h, grid=True, xlim=-15, ylim=0)
-    plt.show()
 
     # heatmap
     x_ax = np.arange(-range_x, range_x, 0.1)
